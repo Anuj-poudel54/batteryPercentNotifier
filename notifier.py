@@ -1,16 +1,22 @@
 from plyer import notification
 import psutil
 from time import sleep
+import os
+
+# Checking for battery.
+if psutil.sensors_battery() is None:
+    print("Battery not detected!")
+    exit()
+
+# Checking if it is window or not.
+if os.name != "nt":
+    exit()
 
 MAX_BATTERY_PERCENT = 85
 MIN_BATTERY_PERCENT = 45
 NOTIFICATION_TIMEOUT = 15
 BATTERRY_CHECK_INTERVAL = 120 #sec
 
-# Checking for battery.
-if psutil.sensors_battery() is None:
-    print("Battery not detected!")
-    exit()
 
 while (True):
     battery_status = psutil.sensors_battery()
