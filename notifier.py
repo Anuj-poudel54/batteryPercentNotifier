@@ -7,6 +7,11 @@ MIN_BATTERY_PERCENT = 45
 NOTIFICATION_TIMEOUT = 15
 BATTERRY_CHECK_INTERVAL = 120 #sec
 
+# Checking for battery.
+if psutil.sensors_battery() is None:
+    print("Battery not detected!")
+    exit()
+
 while (True):
     battery_status = psutil.sensors_battery()
     if battery_status.power_plugged and battery_status.percent >= MAX_BATTERY_PERCENT:
@@ -26,4 +31,3 @@ while (True):
     )
 
     sleep(BATTERRY_CHECK_INTERVAL)
-
