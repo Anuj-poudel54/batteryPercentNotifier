@@ -11,7 +11,7 @@ base = "Win32GUI" if sys.platform == "win32" else None
 
 setup(
     name="notifier",
-    version="0.1",
+    version="0.2",
     description="Program to notify whether to plug or unplug the charger!",
     options={"build_exe": build_exe_options},
     executables=[Executable("notifier.py", base=base)],

@@ -31,3 +31,4 @@ while (True):
     )
 
     sleep(BATTERRY_CHECK_INTERVAL)
+
