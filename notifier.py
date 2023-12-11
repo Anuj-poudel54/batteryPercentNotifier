@@ -2,6 +2,7 @@ from plyer import notification
 import psutil
 from time import sleep
 import os
+import json
 
 # Checking for battery.
 if psutil.sensors_battery() is None:
@@ -12,13 +13,24 @@ if psutil.sensors_battery() is None:
 if os.name != "nt":
     exit()
 
-MAX_BATTERY_PERCENT = 85
-MIN_BATTERY_PERCENT = 45
-NOTIFICATION_TIMEOUT = 15
-BATTERRY_CHECK_INTERVAL = 120 #sec
+# Reading settings file
+with open("./settings.json") as settings_file:
+    settings = json.load(settings_file)
+
+MAX_BATTERY_PERCENT = settings["MAX_BATTERY_PERCENT"]
+MIN_BATTERY_PERCENT = settings["MIN_BATTERY_PERCENT"]
+NOTIFICATION_TIMEOUT = settings["NOTIFICATION_TIMEOUT"]
+BATTERRY_CHECK_INTERVAL = settings["BATTERRY_CHECK_INTERVAL"] #sec
+NOTIFICATION = settings["NOTIFICATION"]
 
 
 while (True):
+
+    sleep(BATTERRY_CHECK_INTERVAL)
+    
+    if not NOTIFICATION:
+        continue
+
     battery_status = psutil.sensors_battery()
     if battery_status.power_plugged and battery_status.percent >= MAX_BATTERY_PERCENT:
         notification.notify(
@@ -35,6 +47,3 @@ while (True):
         app_icon = None,
         timeout = NOTIFICATION_TIMEOUT,
     )
-
-    sleep(BATTERRY_CHECK_INTERVAL)
-
